@@ -11,8 +11,8 @@ suite('when client ask 200 grams of whisky', function () {
         console.log('Client setup');
         client.sober();
     });
-
     /*Bad tests with dependency*/
+
     suite('barman has enough', function () {
         var barman = new Barman(new Cupboard());
         setup(function () {
