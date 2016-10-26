@@ -26,7 +26,7 @@ suite('Stub: when client ask 200 grams of whisky', function () {
 
             let volumeInGlass = barman.pour(drinkName, askedVolume, client);
 
-            assert.equal(askedVolume, volumeInGlass);
+            assert.equal(volumeInGlass, askedVolume);
         })
 
 
@@ -48,6 +48,26 @@ suite('Stub: when client ask 200 grams of whisky', function () {
             let askedWhisky = barman.pour(drinkName, askedVolume, clientStub);
 
             cupboardMock.verify();
+        });
+
+        test('client became drunk', function () {
+            let clientFake = {
+                totalyDrunked: 0,
+                drink: function (volume) {
+                    this.totalyDrunked += volume;
+                },
+                isDrunken: function () {
+                    return this.totalyDrunked > 150;
+                }
+            };
+
+            let fiftyGramWhisky = 50;
+            let oneHundredFiftyGramWhisky = 150;
+
+            clientFake.drink(fiftyGramWhisky);
+            clientFake.drink(oneHundredFiftyGramWhisky);
+
+            assert.equal(clientFake.isDrunken(), true);
         });
     });
 
