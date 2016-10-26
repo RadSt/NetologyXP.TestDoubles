@@ -20,7 +20,7 @@ suite('Stub: when client ask 200 grams of whisky', function () {
         }
 
         let barman = new Barman(curpBoardStub);
-        test('barman pour 200 gramm whisky', function () {
+        test('barman pour 200 gram whisky', function () {
             var clientAskVolume = 200;
 
             var volumeInGlass = barman.pour(drinkName, clientAskVolume, client);
@@ -31,11 +31,21 @@ suite('Stub: when client ask 200 grams of whisky', function () {
     });
 
     suite('no whisky in bar', function () {
+        let curpBoardStub = {
+            hasDrink: function () {
+                return false;
+            },
+        }
 
+        let barman = new Barman(curpBoardStub);
+        test('barmen say no whisky', function () {
+            var clientAskVolume = 200;
+
+            assert.throws(function () {
+                barman.pour(drinkName, clientAskVolume, client)
+            }, /Not enough whisky/);
+
+        })
     });
-
-
-    teardown(function () {
-        console.log('teardown');
-    })
 });
+
