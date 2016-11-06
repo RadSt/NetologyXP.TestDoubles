@@ -49,8 +49,18 @@ suite('Stub: when client ask 200 grams of whisky', function () {
 
             cupboardMock.verify();
         });
+    });
 
-        test('client became drunk', function () {
+    suite('drunken client want whisky', function () {
+        test('barmen say "Sorry, its enough for you"', function () {
+            let curpBoardStub = {
+                hasDrink: function () {
+                    return true;
+                },
+                getDrink: function (drinkName, volume) {
+                    return askedVolume;
+                }
+            }
             let clientFake = {
                 totalyDrunked: 0,
                 drink: function (volume) {
@@ -60,15 +70,19 @@ suite('Stub: when client ask 200 grams of whisky', function () {
                     return this.totalyDrunked > 150;
                 }
             };
-
+            let barman = new Barman(curpBoardStub);
             let fiftyGramWhisky = 50;
-            let oneHundredFiftyGramWhisky = 150;
 
+            let oneHundredFiftyGramWhisky = 150;
             clientFake.drink(fiftyGramWhisky);
             clientFake.drink(oneHundredFiftyGramWhisky);
 
-            assert.equal(clientFake.isDrunken(), true);
-        });
+
+            assert.throws(function () {
+                barman.pour(drinkName, oneHundredFiftyGramWhisky, clientFake)
+            }, /Sorry, its enough for you/);
+
+        })
     });
 
 

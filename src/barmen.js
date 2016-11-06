@@ -8,7 +8,7 @@ module.exports= {
             }
 
             if(client.isDrunken()){
-                return 0;
+                throw new Error('Sorry, its enough for you');
             }
 
             if(!cupboard.hasDrink(drinkName, volume)){
